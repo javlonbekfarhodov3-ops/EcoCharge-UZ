@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - EcoCharge Uz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                'eco-teal': '#14b8a6',
+                'eco-dark': '#1e293b',
+                'eco-bg': '#f1f5f9'
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-eco-bg text-eco-dark font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- Navbar -->
+    <header class="bg-eco-dark text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-eco-teal rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md">E</div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-wide">EcoCharge</h1>
+                    <p class="text-xs text-teal-400 font-medium">Boshqaruv Paneli</p>
+                </div>
+            </div>
+            
+            <nav class="flex items-center gap-6 text-sm font-medium">
+                <a href="dashboard.html" class="text-eco-teal bg-gray-800/60 px-4 py-2 rounded-xl transition">Stansiyalar</a>
+                <a href="analytics.html" class="text-gray-300 hover:text-white transition">Tahlillar</a>
+                <a href="../client/index.html" class="bg-red-500/10 text-red-400 hover:bg-red-500/20 px-4 py-2 rounded-xl transition">Chiqish</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Asosiy qism -->
+    <main class="max-w-7xl mx-auto px-6 py-10 w-full flex-grow">
+        <!-- Statistik qisqacha ma'lumotlar -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center gap-4">
+                <div class="w-12 h-12 bg-teal-50 text-eco-teal rounded-2xl flex items-center justify-center font-bold text-xl">⚡</div>
+                <div>
+                    <p class="text-xs text-gray-400 uppercase font-semibold">Jami Stansiyalar</p>
+                    <h4 class="text-2xl font-extrabold text-eco-dark">12 ta</h4>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center gap-4">
+                <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center font-bold text-xl">🚗</div>
+                <div>
+                    <p class="text-xs text-gray-400 uppercase font-semibold">Faol Bronlar</p>
+                    <h4 class="text-2xl font-extrabold text-eco-dark">28 ta</h4>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center gap-4">
+                <div class="w-12 h-12 bg-green-50 text-green-500 rounded-2xl flex items-center justify-center font-bold text-xl">💰</div>
+                <div>
+                    <p class="text-xs text-gray-400 uppercase font-semibold">Bugungi tushum</p>
+                    <h4 class="text-2xl font-extrabold text-eco-dark">1.4 million so'm</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stansiyalar boshqaruvi jadvali -->
+        <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-2xl font-bold text-eco-dark">Stansiyalar boshqaruvi</h3>
+                    <p class="text-sm text-gray-400 mt-1">Tarmoqdagi barcha quvvatlash punktlarini boshqaring</p>
+                </div>
+                <button class="bg-eco-teal text-white px-5 py-3 rounded-xl font-semibold shadow-md shadow-teal-100 hover:bg-teal-600 transition flex items-center gap-2 text-sm">
+                    <span>+</span> Yangi stansiya qo'shish
+                </button>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-gray-100 text-gray-400 text-xs uppercase tracking-wider">
+                            <th class="pb-4 font-semibold">ID</th>
+                            <th class="pb-4 font-semibold">Stansiya nomi</th>
+                            <th class="pb-4 font-semibold">Manzil</th>
+                            <th class="pb-4 font-semibold">Holati</th>
+                            <th class="pb-4 font-semibold text-right">Amallar</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50 text-sm">
+                        <tr class="hover:bg-gray-50/50 transition">
+                            <td class="py-4 font-semibold text-gray-400">#1</td>
+                            <td class="py-4 font-bold text-eco-dark">EcoCharge Station #1</td>
+                            <td class="py-4 text-gray-600">Toshkent shahri, Amir Temur ko'chasi</td>
+                            <td class="py-4"><span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">Faol / Bo'sh</span></td>
+                            <td class="py-4 text-right space-x-3">
+                                <button class="text-eco-teal hover:underline font-medium">O'zgartirish</button>
+                                <button class="text-red-500 hover:underline font-medium

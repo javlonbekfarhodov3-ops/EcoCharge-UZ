@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mijozlar Tahlili - EcoCharge Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Xarita uchun Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Navigatsiya -->
+    <header class="bg-gray-900 text-white shadow">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold">EcoCharge Admin Panel</h1>
+            <nav class="space-x-4">
+                <a href="dashboard.html" class="hover:text-green-400">Stansiyalar</a>
+                <a href="analytics.html" class="text-green-400 font-semibold">Mijozlar tahlili</a>
+                <a href="../client/index.html" class="text-gray-400 hover:text-white">Saytga o'tish</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Asosiy tahlil qismi -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <h2 class="text-2xl font-bold mb-2">Mijozlar geografiyasi va talab tahlili</h2>
+        <p class="text-gray-600 mb-6">Boshqa hududlardan kelayotgan haydovchilar manzillarini kuzatish va talab yuqori bo'lgan hududlarni o'rganish.</p>
+
+        <!-- Tavsiya bloki (Biznes mantiq) -->
+        <div class="bg-green-50 border-l-4 border-green-500 p-5 rounded-r-lg mb-8 shadow-sm">
+            <h3 class="font-bold text-green-800 text-lg mb-1">Tizim tahlili va kuzatuvi</h3>
+            <p class="text-green-700">Hozirgi ma'lumotlarga ko'ra, <strong>Chilonzor tumani (Qatortol ko'chasi)</strong> yo'nalishidan kelayotgan mijozlar soni 45% ni tashkil etib, yetakchilik qilmoqda. Bu kelgusida shu hududda stansiya tarmoqlarini kengaytirish imkoniyatini ko'rsatadi.</p>
+        </div>
+
+        <!-- Ikki qismga bo'lingan ekran: Xarita va Statistika jadvali -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Vizual Talab Xaritasi -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                <h3 class="font-bold text-gray-800 mb-4">Mijozlar harakati va "Issiq nuqtalar" xaritasi</h3>
+                <div id="demandMap" class="w-full h-[350px] rounded-xl border border-gray-200"></div>
+            </div>
+
+            <!-- Hududlar statistikasi jadvali -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-col justify-between">
+                <div>
+                    <div class="p-6 border-b border-gray-200 font-bold text-gray-800">Kelgan mijozlarning asosiy hududlari</div>
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-gray-50 border-b border-gray-200">
+                            <tr>
+                                <th class="p-4 font-semibold text-gray-600">Hudud / Manzil</th>
+                                <th class="p-4 font-semibold text-gray-600">Mijozlar soni</th>
+                                <th class="p-4 font-semibold text-gray-600">Talab darajasi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 text-sm">
+                            <tr>
+                                <td class="p-4 font-medium">Chilonzor tumani</td>
+                                <td class="p-4">142 ta murojaat</td>
+                                <td class="p-4"><span class="bg-red-100 text-red-700 px-2.5 py-1 rounded-full text-xs font-semibold">Yuqori talab</span></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium">Yunusobod tumani</td>
+                                <td class="p-4">85 ta murojaat</td>
+                                <td class="p-4"><span class="bg-yellow-100 text-yellow-700 px-2.5 py-1 rounded-full text-xs font-semibold">O'rta talab</span></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-medium">Mirzo Ulug'bek tumani</td>
+                                <td class="p-4">40 ta murojaat</td>
+                                <td class="p-4"><span class="bg-green-100 text-green-700 px-2.5 py-1 rounded-full text-xs font-semibold">Past talab</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="p-6 bg-gray-50 border-t border-gray-200 text-center text-sm text-gray-500">
+                    Ma'lumotlar avtomatik ravishda har kuni yangilanib boriladi.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Xarita uchun Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Admin tahlil xaritasi
+        var demandMap = L.map('demandMap').setView([41.2995, 69.2401], 12);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(demandMap);
+
+        // Chilonzor hududidagi yuqori talab nuqtasi (Qizil doira marker)
+        var highDemandMarker = L.circleMarker([41.2858, 69.2036], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 25
+        }).addTo(demandMap);
+        highDemandMarker.bindPopup("<b>Chilonzor tumani</b><br>Talab yuqori: 142 ta murojaat<br><i>Kuzatuv hududi</i>");
+    </script>
+
+</body>
+</html>

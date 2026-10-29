@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stansiyalar Xaritasi - EcoCharge Uz</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Leaflet.js CSS (Bepul va qulay xarita uchun) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header / Navigatsiya -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-green-600">EcoCharge Uz</h1>
+            <nav class="space-x-6">
+                <a href="index.html" class="hover:text-green-600">Bosh sahifa</a>
+                <a href="map.html" class="text-green-600 font-semibold">Stansiyalar xaritasi</a>
+                <a href="booking.html" class="hover:text-green-600">Joy band qilish</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Xarita qismi -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <h2 class="text-2xl font-bold mb-4">Toshkent shahridagi quvvatlash stansiyalari</h2>
+        <p class="text-gray-600 mb-6">Xaritadan o'zingizga yaqin stansiyani tanlang va uning holatini ko'ring.</p>
+        
+        <!-- Xarita chiqadigan maxsus joy (Div) -->
+        <div id="map" class="w-full h-[500px] rounded-xl shadow-md border border-gray-200"></div>
+    </main>
+
+    <!-- Leaflet.js JavaScript (Xaritaning ishlashi uchun) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Toshkent shahri markazidan xaritani ochish
+        var map = L.map('map').setView([41.2995, 69.2401], 13);
+
+        // OpenStreetMap qatlamini qo'shish
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Namuna uchun stansiya nuqtasini qo'shamiz (Keyinchalik buni bazadan olib kelamiz)
+        var marker = L.marker([41.3111, 69.2797]).addTo(map);
+        marker.bindPopup("<b>EcoCharge Station #1</b><br>Holati: Bo'sh<br><a href='booking.html' class='text-green-600 font-bold'>Band qilish</a>").openPopup();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaxsiy Kabinet - EcoCharge Uz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                'eco-teal': '#14b8a6',
+                'eco-dark': '#1e293b',
+                'eco-bg': '#f1f5f9'
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-eco-bg text-eco-dark font-sans antialiased min-h-screen flex flex-col justify-between" onload="initProfilePage()">
+
+    <!-- Navigatsiya -->
+    <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-9 h-9 bg-eco-teal rounded-full flex items-center justify-center text-white font-bold text-lg">E</div>
+                <h1 class="text-2xl font-bold text-eco-dark">Eco<span class="text-eco-teal">Charge</span> <span class="text-xs font-medium text-gray-400">UZ</span></h1>
+            </div>
+            <nav class="flex items-center gap-6 text-sm font-medium">
+                <a href="index.html" class="text-gray-600 hover:text-eco-teal transition">Bosh sahifa</a>
+                <a href="map.html" class="text-gray-600 hover:text-eco-teal transition">Stansiyalar</a>
+                <a href="booking.html" class="text-gray-600 hover:text-eco-teal transition">Band qilish</a>
+                <a href="profile.html" class="text-eco-teal border-b-2 border-eco-teal pb-1 font-bold">Kabinet</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Asosiy qism -->
+    <main class="max-w-7xl mx-auto px-6 py-10 w-full flex-grow">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            
+            <!-- Foydalanuvchi profili bloki (Verifikatsiya galkasi bilan) -->
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center gap-4">
+                <div class="w-16 h-16 bg-teal-100 text-eco-teal rounded-full flex items-center justify-center font-bold text-xl shrink-0">
+                    FJ
+                </div>
+                <div>
+                    <!-- Ism va aniq yonidagi Telegram/Instagram uslubidagi galka -->
+                    <div class="flex items-center gap-1.5 whitespace-nowrap">
+                        <h3 class="text-xl font-bold text-eco-dark">F. Javlonbek</h3>
+                        <svg class="w-5 h-5 text-sky-500 fill-current shrink-0 inline-block" viewBox="0 0 24 24" title="Tasdiqlangan hisob">
+                            <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.79-4-4-4-.495 0-.965.084-1.4.238C14.55 2.475 13.18 1.6 11.6 1.6c-1.58 0-2.95.875-3.6 2.148-.435-.154-.905-.238-1.4-.238-2.21 0-4 1.79-4 4 0 .495.084.965.238 1.4C1.575 9.55.7 10.92.7 12.5c0 1.58.875 2.95 2.148 3.6-.154.435-.238.905-.238 1.4 0 2.21 1.79 4 4 4 .495 0 .965-.084 1.4-.238 1.435 1.273 2.805 2.148 4.385 2.148 1.58 0 2.95-.875 3.6-2.148.435.154.905.238 1.4.238 2.21 0 4-1.79 4-4 0-.495-.084-.965-.238-1.4 1.273-.65 2.148-2.02 2.148-3.6zm-12.21 3.29l-3.29-3.29 1.41-1.41 1.88 1.88 5.88-5.88 1.41 1.41-7.29 7.29z"/>
+                        </svg>
+                    </div>
+                    <span class="inline-block bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full mt-2">
+                        Faol status
+                    </span>
+                </div>
+            </div>
+
+            <!-- Hamyon Balansi Bloki (Booking bilan 100% sinxron) -->
+            <div class="md:col-span-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-6 rounded-3xl shadow-lg flex justify-between items-center">
+                <div>
+                    <p class="text-xs text-emerald-100 uppercase font-semibold">Hamyon balansi</p>
+                    <h3 class="text-3xl font-extrabold mt-1" id="profileBalanceDisplay">145,000 UZS</h3>
+                    <p class="text-[11px] text-emerald-200 mt-1">ⓘ Balans bron garovi (10,000 UZS) uchun xizmat qiladi.</p>
+                </div>
+                <button onclick="topUpBalance(50000)" class="bg-white text-emerald-700 px-5 py-3 rounded-2xl font-bold text-xs shadow-md hover:bg-emerald-50 transition">
+                    Hisobni to'ldirish (+50,000)
+                </button>
+            </div>
+        </div>
+
+        <!-- Bronlar tarixi -->
+        <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100">
+            <h3 class="text-2xl font-bold text-eco-dark mb-6">Mening faol bronlarim va tarixim</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-gray-100 text-gray-400 text-xs uppercase tracking-wider">
+                            <th class="pb-4 font-semibold">Stansiya Manzili</th>
+                            <th class="pb-4 font-semibold">Ulagich</th>
+                            <th class="pb-4 font-semibold">Vaqti</th>
+                            <th class="pb-4 font-semibold">Holati</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50 text-sm">
+                        <tr class="hover:bg-gray-50/50 transition">
+                            <td class="py-4 font-bold text-eco-dark">Chilonzor tumani, Qatortol ko'chasi</td>
+                            <td class="py-4 text-gray-600">CCS2 (60kW)</td>
+                            <td class="py-4 text-gray-600">Bugun, 18:30</td>
+                            <td class="py-4"><span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-semibold">Kutilmoqda</span></td>
+                        </tr>
+                        <tr class="hover:bg-gray-50/50 transition">
+                            <td class="py-4 font-bold text-eco-dark">Yunusobod tumani, Amir Temur shoh ko'chasi</td>
+                            <td class="py-4 text-gray-600">Type 2 (22kW)</td>
+                            <td class="py-4 text-gray-600">2-iyun, 14:00</td>
+                            <td class="py-4"><span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-semibold">Bajarildi</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-eco-dark text-gray-400 py-6 mt-12 text-center text-sm">
+        <p>&copy; 2026 EcoCharge Uz. Ekotizim barcha huquqlari himoyalangan.</p>
+    </footer>
+
+    <script>
+        function initProfilePage() {
+            let balance = localStorage.getItem('ecoUserBalance');
+            if (balance === null) {
+                balance = 145000;
+                localStorage.setItem('ecoUserBalance', balance);
+            }
+            const display = document.getElementById('profileBalanceDisplay');
+            if (display) {
+                display.innerText = Number(balance).toLocaleString() + " UZS";
+            }
+        }
+
+        function topUpBalance(amount) {
+            let balance = Number(localStorage.getItem('ecoUserBalance')) || 145000;
+            balance += amount;
+            localStorage.setItem('ecoUserBalance', balance);
+            initProfilePage();
+            alert("✅ Hisobingiz " + amount.toLocaleString() + " UZS ga muvaffaqiyatli to'ldirildi!");
+        }
+    </script>
+</body>
+</html>

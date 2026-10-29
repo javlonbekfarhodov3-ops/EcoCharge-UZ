@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yangi Stansiya Qo'shish - EcoCharge Partner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                'eco-teal': '#14b8a6',
+                'eco-dark': '#1e293b',
+                'eco-bg': '#f1f5f9'
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-eco-bg text-eco-dark font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md">P</div>
+                <h1 class="text-lg font-bold text-eco-dark">EcoCharge <span class="text-indigo-600">Partner</span></h1>
+            </div>
+            <a href="dashboard.html" class="text-sm font-semibold text-gray-500 hover:text-indigo-600">← Kabinetga qaytish</a>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 py-10 w-full">
+        <div class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-gray-100">
+            <div class="mb-8">
+                <h2 class="text-3xl font-extrabold text-eco-dark">Yangi quvvatlash stansiyasini qo'shish</h2>
+                <p class="text-gray-500 text-sm mt-1">Stansiya ma'lumotlarini kiriting va bir zumda xaritaga joylang</p>
+            </div>
+
+            <form onsubmit="handleAddStation(event)" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Stansiya Nomi</label>
+                    <input type="text" placeholder="Masalan: Chilonzor FastCharge #2" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-600 bg-gray-50">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Joylashgan shahri / tumani</label>
+                        <input type="text" placeholder="Masalan: Tashkent, Yakkasaroy" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-600 bg-gray-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Aniq ko'cha va mo'ljal</label>
+                        <input type="text" placeholder="Mo'ljal: Grand Mir Hotel qarshisida" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-600 bg-gray-50">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Ulagich Turi (Connector)</label>
+                        <select class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-600 bg-gray-50">
+                            <option>CCS2 (Tezkor DC quvvatlash)</option>
+                            <option>Type 2 (AC quvvatlash)</option>
+                            <option>GB/T (Xitoy elektromobillari uchun)</option>
+                            <option>CHAdeMO</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">1 kWh Narxi (UZS)</label>
+                        <input type="number" placeholder="1800" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-600 bg-gray-50">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition">
+                    Stansiyani Ekotizimga Qo'shish
+                </button>
+            </form>
+
+            <div id="partner-success" class="hidden mt-6 p-4 bg-indigo-50 border border-indigo-200 text-indigo-800 rounded-2xl text-center font-medium">
+                🎉 Stansiya muvaffaqiyatli qo'shildi! Tez orada mijozlar xaritasida paydo bo'ladi.
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function handleAddStation(e) {
+            e.preventDefault();
+            document.getElementById('partner-success').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

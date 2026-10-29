@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joy Band Qilish - EcoCharge Uz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                'eco-teal': '#14b8a6',
+                'eco-dark': '#1e293b',
+                'eco-bg': '#f1f5f9'
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-eco-bg text-eco-dark font-sans antialiased min-h-screen flex flex-col justify-between" onload="initBookingPage()">
+
+    <!-- Navigatsiya -->
+    <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-9 h-9 bg-eco-teal rounded-full flex items-center justify-center text-white font-bold text-lg">E</div>
+                <h1 class="text-2xl font-bold text-eco-dark">Eco<span class="text-eco-teal">Charge</span> <span class="text-xs font-medium text-gray-400">UZ</span></h1>
+            </div>
+            <nav class="flex items-center gap-6 text-sm font-medium">
+                <a href="index.html" class="text-gray-600 hover:text-eco-teal transition">Bosh sahifa</a>
+                <a href="map.html" class="text-gray-600 hover:text-eco-teal transition">Stansiyalar</a>
+                <a href="booking.html" class="text-eco-teal border-b-2 border-eco-teal pb-1 font-bold">Band qilish</a>
+                <a href="profile.html" class="flex items-center gap-2 text-gray-600 hover:text-eco-teal transition">Kabinet</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- PUSH-BILDIRISHNOMA -->
+    <div id="pushNotification" class="hidden bg-amber-500 text-white px-4 py-3 text-center text-xs md:text-sm font-medium sticky top-[73px] z-40 shadow-md flex items-center justify-center gap-3">
+        <span>⏰ <strong>Eslatma:</strong> Hurmatli haydovchi, bron vaqtingiz yaqinlashmoqda. 10 daqiqadan so'ng kelmasangiz, garovdagi 10,000 UZS jarima olinadi!</span>
+        <button onclick="dismissNotification()" class="bg-amber-600 hover:bg-amber-700 px-2.5 py-1 rounded-lg text-xs font-bold">Tushunarli</button>
+    </div>
+
+    <!-- Asosiy qism -->
+    <main class="max-w-4xl mx-auto px-6 py-10 w-full">
+        <div class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-gray-100">
+            <div class="text-center mb-8">
+                <span class="inline-block bg-teal-100 text-eco-teal text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-wider">Tezkor Bron va Tarif</span>
+                <h2 class="text-3xl font-extrabold text-eco-dark">Joy band qilish</h2>
+                <p class="text-gray-500 mt-2 text-sm">Balansdan garov sifatida foydalanib joyni band qiling. Zaryad narxi stansiya egasi belgilagan tarif bo'yicha stansiyada to'lanadi[cite: 3].</p>
+            </div>
+
+            <!-- Dinamik Balans Bloki -->
+            <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl mb-6 flex justify-between items-center text-sm">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">💳</span>
+                    <div>
+                        <span class="text-gray-500 text-xs block">Shaxsiy hisobingizdagi balans:</span>
+                        <strong class="text-eco-dark text-base font-bold" id="userBalanceDisplay">0 UZS</strong>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <span class="text-gray-500 text-xs block">Bron Garovi (Muzlatiladi):</span>
+                    <strong class="text-amber-600 font-bold">10,000 UZS</strong>
+                </div>
+            </div>
+
+            <form onsubmit="openBookingModal(event)" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Stansiya manzilini tanlang</label>
+                        <select id="station" onchange="updateStationTariff()" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-eco-teal bg-gray-50 text-sm">
+                            <option value="chilonzor">Chilonzor tumani, Qatortol ko'chasi</option>
+                            <option value="yunusobod">Yunusobod tumani, Amir Temur shoh ko'chasi</option>
+                            <option value="mirzo">Mirzo Ulug'bek tumani (Nosoz stansiya testi)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Ulagich turi (Connector)</label>
+                        <select id="connector" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-eco-teal bg-gray-50 text-sm">
+                            <option value="ccs2">CCS2 (Tezkor quvvatlash - 60kW)</option>
+                            <option value="type2">Type 2 (O'rta quvvatlash - 22kW)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- AVTOMOBIL RAQAMI (Yaxlit yacheyka va vertikal chiziqcha bilan) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Avtomobil raqami va modeli</label>
+                        <div class="flex items-center w-full rounded-xl border border-gray-200 bg-gray-50 focus-within:ring-2 focus-within:ring-eco-teal focus-within:bg-white transition">
+                            <select id="carRegion" class="px-3 py-3 bg-transparent text-sm font-bold text-eco-dark focus:outline-none cursor-pointer border-r border-gray-300">
+                                <option value="01">01</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                                <option value="60">60</option>
+                                <option value="70">70</option>
+                                <option value="75">75</option>
+                                <option value="80">80</option>
+                                <option value="85">85</option>
+                                <option value="90">90</option>
+                                <option value="95">95</option>
+                            </select>
+                            <input type="text" id="carNumber" placeholder="777 AAA" oninput="this.value = this.value.toUpperCase()" required class="w-full px-4 py-3 bg-transparent text-sm font-mono uppercase tracking-wider focus:outline-none text-eco-dark font-semibold">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Kelish kuni (Maksimal 7 kun)</label>
+                        <input type="date" id="bookingDate" onchange="renderTimeSlots()" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-eco-teal bg-gray-50 text-sm">
+                    </div>
+                </div>
+
+                <!-- PARTNER TARIFI -->
+                <div class="bg-teal-50 border border-teal-200 p-4 rounded-2xl flex justify-between items-center text-sm">
+                    <div>
+                        <span class="text-gray-500 text-xs block">Stansiya Egasi Belgilagan Tarif:</span>
+                        <strong id="tariffDisplay" class="text-eco-teal text-base font-extrabold">Yuklanmoqda...</strong>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-gray-500 text-xs block">To'lov joyi:</span>
+                        <strong class="text-eco-dark font-bold">Stansiyada (kWh bo'yicha)[cite: 3]</strong>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Vaqt oralig'ini tanlang (Slotlar)</label>
+                    <div id="slotsContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
+                    <input type="hidden" id="selectedTime" required>
+                </div>
+
+                <button type="submit" id="submitBtn" class="w-full bg-eco-teal text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-teal-200 hover:bg-teal-600 transition text-center">
+                    Joyni Band qilish (Balansdan 10,000 UZS Garov)
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- BRONNI TASDIQLASH MODALI -->
+    <div id="bookingModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative">
+            <h3 class="text-2xl font-bold text-eco-dark mb-2">Bronni Tasdiqlash</h3>
+            <p class="text-xs text-gray-500 mb-6">Hisobingizdagi mablag'dan garov sifatida foydalanish</p>
+            
+            <div class="space-y-3 bg-gray-50 p-4 rounded-2xl mb-6 text-sm">
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Tanlangan vaqt:</span>
+                    <strong id="modalTime" class="text-eco-dark">-</strong>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Partner Tarifi (1 kWh):</span>
+                    <strong id="modalTariff" class="text-eco-teal">-</strong>
+                </div>
+                <div class="flex justify-between border-t border-gray-200 pt-2">
+                    <span class="text-gray-500">Garovga olinadigan summa:</span>
+                    <strong class="text-amber-600">10,000 UZS (Balansdan)</strong>
+                </div>
+            </div>
+
+            <p class="text-[11px] text-gray-400 mb-6">
+                * Eslatma: O'z vaqtida kelsangiz garov qaytariladi. Kelmasangiz, jarima sifatida ushlab qolinadi. Zaryadlash summasi esa stansiyaning o'zida kWh bo'yicha to'lanadi[cite: 3].
+            </p>
+
+            <div class="flex gap-3">
+                <button onclick="closeBookingModal()" class="w-1/2 bg-gray-100 text-gray-600 py-3 rounded-xl font-semibold text-sm">Bekor qilish</button>
+                <button onclick="confirmBooking()" class="w-1/2 bg-eco-teal text-white py-3 rounded-xl font-semibold text-sm shadow-md">Tasdiqlash</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MUVAFFAQIYATLI BRON MODALI -->
+    <div id="qrModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-8 text-center shadow-2xl">
+            <div class="w-16 h-16 bg-teal-100 text-eco-teal rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">⚡</div>
+            <h3 class="text-xl font-bold text-eco-dark mb-1">Muvaffaqiyatli Band qilindi!</h3>
+            <p class="text-xs text-gray-500 mb-4">10,000 UZS balansdan garov sifatida muzlatildi. Stansiyaga borib zaryadlang va kWh bo'yicha to'lang[cite: 3].</p>
+            
+            <div class="bg-gray-100 p-4 rounded-2xl mb-4 border border-gray-200 text-left text-xs space-y-2">
+                <div class="flex justify-between"><span>1 kWh Tarifi:</span><strong id="qrTariff">-</strong></div>
+                <div class="flex justify-between"><span>To'lov usuli:</span><strong>Stansiyada (Naqd / QR)</strong>[cite: 3]</div>
+            </div>
+
+            <button onclick="location.reload()" class="w-full bg-eco-teal text-white py-3 rounded-xl font-bold text-sm shadow-lg mb-2">
+                Tushunarli (Bosh sahifaga)
+            </button>
+        </div>
+    </div>
+
+    <footer class="bg-eco-dark text-gray-400 py-6 mt-12 text-center text-sm">
+        <p>&copy; 2026 EcoCharge Uz. Ekotizim barcha huquqlari himoyalangan.</p>
+    </footer>
+
+    <script>
+        const stationsStatus = { "chilonzor": "faol", "yunusobod": "faol", "mirzo": "nosoz" };
+        const mockSlots = [
+            { time: "09:00 - 10:00", isBooked: false },
+            { time: "10:00 - 11:00", isBooked: true },
+            { time: "11:00 - 12:00", isBooked: false },
+            { time: "14:00 - 15:00", isBooked: false }
+        ];
+        let selectedSlot = null;
+
+        function getUserBalance() {
+            let balance = localStorage.getItem('ecoUserBalance');
+            if (balance === null) {
+                balance = 145000;
+                localStorage.setItem('ecoUserBalance', balance);
+            }
+            return Number(balance);
+        }
+
+        function updateBalanceDisplay() {
+            const currentBalance = getUserBalance();
+            document.getElementById('userBalanceDisplay').innerText = currentBalance.toLocaleString() + " UZS";
+        }
+
+        function initBookingPage() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('bookingDate').min = today;
+            document.getElementById('bookingDate').value = today;
+            updateStationTariff();
+            updateBalanceDisplay();
+
+            setTimeout(() => {
+                document.getElementById('pushNotification').classList.remove('hidden');
+            }, 2000);
+        }
+
+        function dismissNotification() {
+            document.getElementById('pushNotification').classList.add('hidden');
+        }
+
+        function getStationTariffs() {
+            return JSON.parse(localStorage.getItem('ecoStationTariffs')) || {
+                "chilonzor": 2200,
+                "yunusobod": 2500,
+                "mirzo": 0
+            };
+        }
+
+        function updateStationTariff() {
+            const stationKey = document.getElementById('station').value;
+            const tariffs = getStationTariffs();
+            
+            if (stationsStatus[stationKey] === 'nosoz') {
+                document.getElementById('tariffDisplay').innerText = "Stansiya ishlamayapti";
+            } else {
+                const price = tariffs[stationKey] || 2000;
+                document.getElementById('tariffDisplay').innerText = price.toLocaleString() + " UZS / 1 kWh";
+            }
+            renderTimeSlots();
+        }
+
+        function renderTimeSlots() {
+            const stationKey = document.getElementById('station').value;
+            const container = document.getElementById('slotsContainer');
+            const submitBtn = document.getElementById('submitBtn');
+            container.innerHTML = '';
+            selectedSlot = null;
+
+            if (stationsStatus[stationKey] === 'nosoz') {
+                container.innerHTML = `<div class="col-span-4 bg-red-50 text-red-700 p-3 rounded-xl text-center text-xs font-bold">⚠️ Ushbu stansiya vaqtincha nosoz!</div>`;
+                submitBtn.disabled = true;
+                return;
+            }
+            submitBtn.disabled = false;
+
+            mockSlots.forEach(slot => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                if (slot.isBooked) {
+                    btn.className = "py-2 px-2 rounded-xl text-xs bg-red-50 text-red-400 border border-red-200 cursor-not-allowed";
+                    btn.innerText = slot.time + " (Band)";
+                    btn.disabled = true;
+                } else {
+                    btn.className = "slot-btn py-2 px-2 rounded-xl text-xs font-semibold bg-teal-50 text-eco-teal border border-teal-200 hover:bg-teal-500 hover:text-white transition";
+                    btn.innerText = slot.time;
+                    btn.onclick = () => selectSlot(btn, slot.time);
+                }
+                container.appendChild(btn);
+            });
+        }
+
+        function selectSlot(btn, time) {
+            document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('bg-eco-teal', 'text-white'));
+            btn.classList.add('bg-eco-teal', 'text-white');
+            selectedSlot = time;
+            document.getElementById('selectedTime').value = time;
+        }
+
+        function openBookingModal(e) {
+            e.preventDefault();
+            if (!selectedSlot) {
+                alert("Iltimos, vaqt oralig'ini tanlang!");
+                return;
+            }
+            
+            const currentBalance = getUserBalance();
+            if (currentBalance < 10000) {
+                alert("Hisobingizda bron garovi uchun mablag' yetarli emas! Iltimos, balansni to'ldiring.");
+                return;
+            }
+
+            const stationKey = document.getElementById('station').value;
+            const tariffs = getStationTariffs();
+            const currentPrice = (tariffs[stationKey] || 2000).toLocaleString() + " UZS / kWh";
+
+            document.getElementById('modalTime').innerText = selectedSlot;
+            document.getElementById('modalTariff').innerText = currentPrice;
+            document.getElementById('bookingModal').classList.remove('hidden');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+        }
+
+        function confirmBooking() {
+            let currentBalance = getUserBalance();
+            currentBalance -= 10000; // 10,000 UZS garov uchun yechiladi
+            localStorage.setItem('ecoUserBalance', currentBalance);
+            
+            updateBalanceDisplay();
+            closeBookingModal();
+
+            const stationKey = document.getElementById('station').value;
+            const tariffs = getStationTariffs();
+            document.getElementById('qrTariff').innerText = (tariffs[stationKey] || 2000).toLocaleString() + " UZS / kWh";
+            document.getElementById('qrModal').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

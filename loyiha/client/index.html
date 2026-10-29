@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCharge Uz - Kelajak Energiyasi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                'eco-teal': '#14b8a6',
+                'eco-dark': '#1e293b',
+                'eco-bg': '#f1f5f9'
+              }
+            }
+          }
+        }
+    </script>
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+        }
+    </style>
+</head>
+<body class="bg-eco-bg text-eco-dark font-sans antialiased">
+
+    <!-- Header / Navigatsiya (Admin tugmasisiz) -->
+    <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-9 h-9 bg-eco-teal rounded-full flex items-center justify-center text-white font-bold text-lg">E</div>
+                <h1 class="text-2xl font-bold text-eco-dark">Eco<span class="text-eco-teal">Charge</span> <span class="text-xs font-medium text-gray-400">UZ</span></h1>
+            </div>
+            <nav class="flex items-center gap-6 text-sm font-medium">
+                <a href="index.html" class="text-eco-teal border-b-2 border-eco-teal pb-1">Bosh sahifa</a>
+                <a href="map.html" class="text-gray-600 hover:text-eco-teal transition">Stansiyalar</a>
+                <a href="booking.html" class="text-gray-600 hover:text-eco-teal transition">Band qilish</a>
+                <a href="profile.html" class="flex items-center gap-2 text-gray-600 hover:text-eco-teal transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    Kabinet
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-gradient py-24 border-b border-gray-100">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <span class="inline-block bg-teal-100 text-eco-teal text-xs font-bold px-3 py-1 rounded-full mb-6 tracking-wide uppercase">
+                O'zbekistondagi №1 Eko-Infratuzilma
+            </span>
+            
+            <h2 class="text-6xl font-extrabold text-eco-dark mb-6 leading-tight tracking-tight">
+                Elektr avtomobilingiz uchun <br>
+                <span class="text-eco-teal">aqlli quvvatlash</span> ekotizimi
+            </h2>
+            <p class="text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+                Shahar bo'ylab stansiyalarni real vaqt rejimida toping, oldindan band qiling va qulay tarzda quvvatlang.
+            </p>
+            <div class="flex gap-4 justify-center">
+                <a href="map.html" class="bg-eco-teal text-white px-10 py-4 rounded-xl font-semibold shadow-lg shadow-teal-200 hover:bg-teal-600 transition duration-300 transform hover:-translate-y-1">
+                    Xaritani ko'rish
+                </a>
+                <a href="booking.html" class="bg-white text-eco-dark px-10 py-4 rounded-xl font-medium ring-1 ring-gray-200 hover:ring-gray-300 transition duration-300">
+                    Joy band qilish
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Afzalliklar bo'limi -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <h3 class="text-3xl font-bold text-center mb-16">Nega aynan EcoCharge?</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bg-eco-bg p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition duration-300">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-inner border border-gray-100">
+                        <svg class="w-7 h-7 text-eco-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3">Eng qulay joylashuv</h4>
+                    <p class="text-gray-600 leading-relaxed">Toshkent shahri va viloyatlardagi eng tirband va kerakli nuqtalarda stansiyalar tarmog'i.</p>
+                </div>
+                
+                <div class="bg-eco-bg p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition duration-300">
+                     <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-inner border border-gray-100">
+                        <svg class="w-7 h-7 text-eco-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3">Tezkor bron qilish</h4>
+                    <p class="text-gray-600 leading-relaxed">Mashinangiz yetib borguncha stansiyani band qilib qo'ying, vaqtingizni tejang.</p>
+                </div>
+
+                <div class="bg-eco-bg p-8 rounded-3xl border border-gray-100 hover:shadow-xl transition duration-300">
+                     <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-inner border border-gray-100">
+                        <svg class="w-7 h-7 text-eco-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3">Shaffof to'lov tizimi</h4>
+                    <p class="text-gray-600 leading-relaxed">Oldindan to'lov, real vaqtda balansni kuzatish va adolatli jarima tizimi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-eco-dark text-gray-400 py-10 mt-16">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-sm">
+            <div>
+                <p>&copy; 2026 EcoCharge Uz. Barcha huquqlar himoyalangan.</p>
+                <p class="mt-1 text-xs text-gray-500">Murojaat uchun: +998-93-259-39-29 | support@ecocharge.uz</p>
+            </div>
+            
+            <!-- Stansiya egalari uchun maxsus havola -->
+            <div class="bg-gray-800 p-4 rounded-2xl border border-gray-700 flex items-center gap-4">
+                <div>
+                    <p class="text-white font-semibold text-xs">O'zingizning quvvatlash stansiyangiz bormi?</p>
+                    <p class="text-gray-400 text-xs">Ekotizimimizga qo'shiling va daromad oling</p>
+                </div>
+                <a href="../partner/dashboard.html" class="bg-indigo-600 text-white text-xs font-bold px-4 py-2 rounded-xl hover:bg-indigo-500 transition">
+                    Hamkor Bo'lish
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
